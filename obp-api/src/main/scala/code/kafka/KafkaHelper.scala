@@ -92,7 +92,6 @@ trait KafkaHelper extends ObpActorInit with MdcLoggable {
     import liftweb.json.compactRender
     implicit val formats = CustomJsonFormats.nullTolerateFormats
     val tp = manifest[T].runtimeClass
-
     (actor ? request)
       .mapTo[JValue]
       .map {jvalue =>

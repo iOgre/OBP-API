@@ -310,7 +310,7 @@ trait KafkaMappedConnector_vMay2019 extends Connector with KafkaHelper with MdcL
         import com.openbankproject.commons.dto.{OutBoundGetBanks => OutBound, InBoundGetBanks => InBound}
 
         val req = OutBound(callContext.map(_.toOutboundAdapterCallContext).get )
-        logger.debug(s"Kafka getBanks Req is: $req")
+        logger.warn(s"[KMC_052019] Kafka getBanks Req is: $req")
         processRequest[InBound](req) map (convertToTuple(callContext))
       }
         

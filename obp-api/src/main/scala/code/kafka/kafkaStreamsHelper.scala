@@ -152,13 +152,13 @@ class KafkaStreamsHelperActor extends Actor with ObpActorInit with ObpActorHelpe
 
   def receive = {
     case value: String =>
-      logger.debug("kafka_request[value]: " + value)
+      logger.warn("[KSHA] kafka_request[value]: " + value)
       for {
         t <- Future(Topics.topicPairHardCode) // Just have two Topics: obp.request.version and obp.response.version
         r <- sendRequestAndGetResponseFromKafka(t, keyAndPartition, value)
         jv <- stringToJValueF(r)
       } yield {
-        logger.debug("South Side recognises version info")
+        logger.warn("[KSHA] South Side recognises version info")
         jv
       }
 
@@ -184,7 +184,7 @@ class KafkaStreamsHelperActor extends Actor with ObpActorInit with ObpActorHelpe
 
     // This is for KafkaMappedConnector_JVMcompatible, KafkaMappedConnector_vMar2017 and KafkaMappedConnector, the request is Map[String, String]  
     case request: Map[_, _] =>
-      logger.debug("kafka_request[Map[String, String]]: " + request)
+      logger.warn("[KSHA] kafka_request[Map[String, String]]: " + request)
       val orgSender = sender
       val f = for {
         t <- Future(Topics.topicPairFromProps) // Just have two Topics: Request and Response
